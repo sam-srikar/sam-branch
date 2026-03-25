@@ -41,3 +41,16 @@ app-example
 # generated native folders
 /ios
 /android
+
+# Python
+venv/
+__pycache__/
+*.pyc
+scam_model.pkl
+
+# Node / Expo
+node_modules/
+.expo/
+
+# macOS
+.DS_Store
