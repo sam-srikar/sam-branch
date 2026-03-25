@@ -15,23 +15,32 @@ export default function HomeScreen() {
 
   const analyzeCall = async () => {
     if (!text.trim()) return;
-
+  
     setLoading(true);
+  
     try {
-      const response = await fetch("http://192.168.1.17:8000/analyze", {
+      const response = await fetch("http://192.168.1.19:8001/analyze", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({ text }),
       });
-
-      const data = await response.json();
+  
+      if (!response.ok) {
+        throw new Error("Server error");
+      }
+  
+      const data: any = await response.json();
       setResult(data);
+  
     } catch (error) {
+      console.error(error);
       alert("Unable to connect to CallGuard server.");
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
-
   const getRiskColor = () => {
     if (!result) return "#ccc";
     if (result.risk_level === "High") return "#ff4d4d";
